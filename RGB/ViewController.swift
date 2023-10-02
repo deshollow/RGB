@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+final class ViewController: UIViewController {
     
     @IBOutlet weak var rgbDisplay: UIView!
     
@@ -22,41 +22,31 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         rgbDisplay.layer.cornerRadius = 15
+        setCurrentColor()
+        setCurrentValue(slider: redColorSlider, label: redColorValue)
+        setCurrentValue(slider: greenColorSlider, label: greenColorValue)
+        setCurrentValue(slider: blueColorSlider, label: blueColorValue)
         
     }
     // MARK: - Action methods
     
     @IBAction func redSliderAction() {
-        if redColorSlider.value < 0.01 {
-            redColorValue.text = String(format: "%.1f", redColorSlider.value)
-        } else {
-            redColorValue.text = String(format: "%.2f", redColorSlider.value)
-        }
         
         setCurrentColor()
+        setCurrentValue(slider: redColorSlider, label: redColorValue)
     }
     
     @IBAction func greenSliderAction(){
-        
-        if greenColorSlider.value < 0.01 {
-            greenColorValue.text = String(format: "%.1f", greenColorSlider.value)
-        } else {
-            greenColorValue.text = String(format: "%.2f", greenColorSlider.value)
-        }
-        
         setCurrentColor()
+        setCurrentValue(slider: greenColorSlider, label: greenColorValue)
     }
+    
     @IBAction func blueSliderAction(){
-        
-        if blueColorSlider.value < 0.01  {
-            blueColorValue.text = String(format: "%.1f", blueColorSlider.value)
-        } else {
-            blueColorValue.text = String(format: "%.2f", blueColorSlider.value)
-        }
-        
         setCurrentColor()
+        setCurrentValue(slider: blueColorSlider, label: blueColorValue)
+        
     }
-    // MARK: - Private method
+    // MARK: - Private methods
     
     private func setCurrentColor(){
         rgbDisplay.backgroundColor = UIColor(
@@ -64,6 +54,14 @@ class ViewController: UIViewController {
             green: CGFloat(greenColorSlider.value),
             blue: CGFloat(blueColorSlider.value),
             alpha: CGFloat(1)
+        )
+    }
+    private func getFormatValue(for slider: UISlider) -> String {
+        slider.value < 0.01 ? "%.1f" : "%.2f"
+    }
+    private func setCurrentValue(slider: UISlider, label: UILabel) {
+        label.text = String(format: getFormatValue(for: slider),
+                            slider.value
         )
     }
 }
